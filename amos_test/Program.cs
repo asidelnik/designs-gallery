@@ -1,7 +1,12 @@
+
+using amos_test.Interfaces;
+using amos_test.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IDesignService, DesignsService>();
 
 var app = builder.Build();
 
