@@ -24,33 +24,28 @@ input[type='submit'] {
   font-size: 14px;
 }
 
-input[type='submit'] {
+.search-button {
   background-color: #4caf50;
+  color: white;
+  cursor: pointer;
+}
+
+.delete-button{
+  background-color: red;
+  color: white;
+  cursor: pointer;
+}
+
+.update-button{
+  background-color: blue;
   color: white;
   cursor: pointer;
 }
 
 input[type='submit']:hover {
-  background-color: blue;
+  font-weight: bold;
 }
 
-button {
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 14px;
-}
-
-button {
-  background-color: #4caf50;
-  color: white;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: blue;
-}
 
 /* button:disabled {
   background-color: #cccccc;

@@ -3,6 +3,7 @@
   var designs = ViewData["designs"] as
   List<DesignModel>;
   var filter = ViewData["filter"] as string;
+  var replace = ViewData["replace"] as string;
 }
 
 <div class="text-center">
@@ -16,21 +17,26 @@
         id="filter"
         placeholder="Text to search"
         name="filter" 
-        value="@filter">
-      <input type="submit" value="Show me!" />
+        value="@filter"
+      />
+      <input type="submit" value="Show me!" class="search-button" />
     </div>
   </form>
 
-  @* <form action="/Home/UpdateAllDesigns" method="post">
+  <form action="/Home/UpdateAllDesigns" method="post">
     <div class="form-inner-container">
       <label for="replace">Replace
         with</label>
-      <input type="text" id="replace"
+      <input 
+        type="text" 
+        id="replace"
         name="replace"
-        placeholder="Some text">
-      <input type="submit" value="Update all!" />
+        placeholder="Some text" 
+        value="@replace"
+      />
+      <input type="submit" value="Update all!" class="update-button" />
     </div>
-  </form> *@
+  </form>
 
   <div class="designs-grid">
     @foreach (var design in designs)
@@ -39,12 +45,56 @@
           <img src="@design.PreviewImage"
             alt="Preview image">
           <div class="button-container">
-            <button
-              class="update-button">Update</button>
-            <button
-              class="delete-button">Delete</button>
+              <form action="/Home/UpdateDesignById" method="post">
+                <input type="hidden" name="id" value="@design.Id" />
+                <input 
+                  type="hidden" 
+                  id="replace"
+                  name="replace"
+                  value="@replace"
+                />
+                <input 
+                  type="hidden" 
+                  id="filter"
+                  name="filter" 
+                  value="@filter" 
+                />
+                <input type="submit" value="Update" class="update-button" />
+              </form>
+
+              <form action="/Home/DeleteDesignById" method="post">
+                <input type="hidden" name="id" value="@design.Id" />
+                <input 
+                  type="hidden" 
+                  id="filter"
+                  name="filter" 
+                  value="@filter" 
+                />
+                <input type="submit" value="Delete" class="delete-button" />
+              </form>
           </div>
         </div>
     }
   </div>
 </div>
+
+
+@* <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('.delete-design').click(function() {
+        var designId = $(this).data('design-id');
+
+        $.ajax({
+            url: '/Home/DeleteDesignById',
+            type: 'DELETE',
+            data: { id: designId, filter: $('#filter').val() },
+            success: function(result) {
+                if (result != null) {
+                  designs = result;
+                }
+            }
+        });
+    });
+});
+</script> *@

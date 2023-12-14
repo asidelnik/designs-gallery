@@ -32,6 +32,22 @@ public class HomeController : Controller
   //   return View();
   // }
 
+  [HttpPost]
+  public IActionResult DeleteDesignById(int? id, string filter)
+  {
+    if (id == null) return BadRequest();
+    _designService.DeleteDesignById((int)id);
+    return RedirectToAction(nameof(Index), "Home", new { filter });
+  }
+
+  [HttpPost]
+  public IActionResult UpdateDesignById(int? id, string? replace, string filter)
+  {
+    if (id == null) return BadRequest();
+    _designService.UpdateDesignById((int)id, replace);
+    return RedirectToAction(nameof(Index), "Home", new { filter });
+  }
+
   public IActionResult Privacy()
   {
     return View();
