@@ -2,7 +2,7 @@
   text-align: center;
 }
 
-.single-input-elements {
+.form-inner-container {
   display: flex;
   flex-direction: row;
   align-items: baseline;
@@ -16,6 +16,24 @@ label {
 }
 
 input[type='text'],
+input[type='submit'] {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+input[type='submit'] {
+  background-color: #4caf50;
+  color: white;
+  cursor: pointer;
+}
+
+input[type='submit']:hover {
+  background-color: blue;
+}
+
 button {
   padding: 10px;
   margin-bottom: 10px;
@@ -31,14 +49,14 @@ button {
 }
 
 button:hover {
-  background-color: #45a049;
+  background-color: blue;
 }
 
-button:disabled {
+/* button:disabled {
   background-color: #cccccc;
   color: #666666;
   cursor: not-allowed;
-}
+} */
 
 /* Designs grid *****************/
 .designs-grid {

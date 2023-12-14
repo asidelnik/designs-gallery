@@ -16,12 +16,21 @@ public class HomeController : Controller
     _designService = designService;
   }
 
-  public IActionResult Index()
+  public IActionResult Index(string filter)
   {
-    var designs = _designService.GetDesignsFiltered(null);
+    var designs = _designService.GetDesignsFiltered(filter);
+    ViewData["filter"] = filter;
     ViewData["designs"] = designs;
     return View();
   }
+
+  // [HttpPost]
+  // public IActionResult UpdateAllDesigns(string filter)
+  // {
+  //   var designs = _designService.GetDesignsFiltered(filter);
+  //   ViewData["designs"] = designs;
+  //   return View();
+  // }
 
   public IActionResult Privacy()
   {

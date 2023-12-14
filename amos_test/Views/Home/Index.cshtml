@@ -2,29 +2,35 @@
   ViewData["Title"] = "Home Page";
   var designs = ViewData["designs"] as
   List<DesignModel>;
+  var filter = ViewData["filter"] as string;
 }
 
 <div class="text-center">
-  <div class="single-input-elements">
-    <label for="Search">Text
-      to
-      search</label>
-    <input type="text" id="Search"
-      name="Search"
-      placeholder="Text to search">
-    <button type="button">
-      Show me!</button>
-  </div>
+  <form asp-action="Index" method="get">
+    <div class="form-inner-container">
+      <label for="filter">Text
+        to
+        search</label>
+      <input 
+        type="text" 
+        id="filter"
+        placeholder="Text to search"
+        name="filter" 
+        value="@filter">
+      <input type="submit" value="Show me!" />
+    </div>
+  </form>
 
-  <div class="single-input-elements">
-    <label for="Replace">Replace
-      with</label>
-    <input type="text" id="Replace"
-      name="Replace"
-      placeholder="Some text">
-    <button type="button">
-      Update all!</button>
-  </div>
+  @* <form action="/Home/UpdateAllDesigns" method="post">
+    <div class="form-inner-container">
+      <label for="replace">Replace
+        with</label>
+      <input type="text" id="replace"
+        name="replace"
+        placeholder="Some text">
+      <input type="submit" value="Update all!" />
+    </div>
+  </form> *@
 
   <div class="designs-grid">
     @foreach (var design in designs)
