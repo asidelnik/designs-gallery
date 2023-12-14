@@ -20,33 +20,49 @@ namespace amos_test.Services
         {
           if (d?.DataNew == null) return false;
           var dataNew = JsonConvert.DeserializeObject<DataNew>(d.DataNew);
-          // TODO - perhaps check on both: generatedElementsValues & elements properties
-          var frontElements = dataNew?.frontPage?.generatedElementsValues;
-          if (DoesPageContainFilter(frontElements, filter)) return true;
-          var innerElements = dataNew?.innerPage?.generatedElementsValues;
-          if (DoesPageContainFilter(innerElements, filter)) return true;
-          var backElements = dataNew?.backPage?.generatedElementsValues;
-          if (DoesPageContainFilter(backElements, filter)) return true;
+
+          if (DoGeneratedElementsContainFilter(dataNew?.frontPage?.generatedElementsValues, filter)) return true;
+          if (DoElementsContainFilter(dataNew?.frontPage?.elements, filter)) return true;
+
+          if (DoGeneratedElementsContainFilter(dataNew?.innerPage?.generatedElementsValues, filter)) return true;
+          if (DoElementsContainFilter(dataNew?.innerPage?.elements, filter)) return true;
+
+          if (DoGeneratedElementsContainFilter(dataNew?.backPage?.generatedElementsValues, filter)) return true;
+          if (DoElementsContainFilter(dataNew?.backPage?.elements, filter)) return true;
+
           return false;
         }).ToList() ?? [];
       }
       return designs;
     }
 
-    private static bool DoesPageContainFilter(Dictionary<string, PageText>? pageElements, string filter)
+    private bool DoGeneratedElementsContainFilter(Dictionary<string, PageText>? generatedElements, string filter)
     {
-      if (pageElements != null)
+      if (generatedElements != null)
       {
-        foreach (KeyValuePair<string, PageText> elem in pageElements)
+        foreach (KeyValuePair<string, PageText> elem in generatedElements)
         {
-          var searchFound = DoesElementContainFilter(elem.Value.text, filter);
+          var searchFound = DoesTextContentContainFilter(elem.Value.text, filter);
           if (searchFound) return true;
         }
       }
       return false;
     }
 
-    private static bool DoesElementContainFilter(TextContent? root, string filter)
+    private bool DoElementsContainFilter(List<Element>? elements, string filter)
+    {
+      if (elements != null)
+      {
+        foreach (var elem in elements)
+        {
+          var searchFound = DoesTextContentContainFilter(elem?.textProps?.text, filter);
+          if (searchFound) return true;
+        }
+      }
+      return false;
+    }
+
+    private bool DoesTextContentContainFilter(TextContent? root, string filter)
     {
       if (root == null)
       {
@@ -62,7 +78,7 @@ namespace amos_test.Services
       {
         foreach (var node in root.content)
         {
-          if (DoesElementContainFilter(node, filter))
+          if (DoesTextContentContainFilter(node, filter))
           {
             return true;
           }

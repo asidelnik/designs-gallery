@@ -22,9 +22,9 @@ public class AdminPreviewOldFormat
 
 public class TransformData
 {
-  public int? x { get; set; }
-  public int? y { get; set; }
-  public int? scale { get; set; }
+  public double? x { get; set; }
+  public double? y { get; set; }
+  public double? scale { get; set; }
 }
 
 public class AdminPreviewPhotoSlotProps
@@ -54,8 +54,8 @@ public class Element
   public double? y { get; set; }
   public string? id { get; set; }
   public string? type { get; set; }
-  public int? width { get; set; }
-  public int? height { get; set; }
+  public double? width { get; set; }
+  public double? height { get; set; }
   public ImageProps? imageProps { get; set; }
   public AdminPreviewOldFormat? adminPreviewOldFormat { get; set; }
   public AdminPreviewPhotoSlotProps? adminPreviewPhotoSlotProps { get; set; }
