@@ -1,7 +1,7 @@
 ### Designs gallery
 View designs, filter and update.
 
-### Stack: 
+### Stack
 .NET 8 MVC, C#, Razor, JS, HTML, CSS
 
 ### DB
