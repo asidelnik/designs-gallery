@@ -1,11 +1,8 @@
 ﻿@{
-  ViewData["Title"] = "Home Page";
   var errorMessage = ViewData["errorMessage"] as string;
   var designs = ViewData["designs"] as
   List<DesignModel>;
   var filter = ViewData["filter"] as string;
-  @* var replace = ViewData["replace"] as string; *@
-  @* var replace = ""; *@
 }
 
 <div class="error-message-display-box">
@@ -30,23 +27,27 @@
           name="filter" 
           value="@filter"
         />
-        <input type="submit" value="Show me!" class="search-button" />
+        <input type="submit" value="Search" class="search-button" />
       </div>
     </form>
 
-    <form action="/Home/UpdateAllDesigns" method="post">
+    <form action="/Home/UpdateFilteredDesignsTexts" method="post">
       <div class="form-inner-container">
         <label for="replaceAll">Replace
           with</label>
-        <input 
+        <input
           type="text" 
           id="replaceAll"
           name="replaceAll"
-          placeholder="Replace text" 
-          @* value="@replace" *@
-          onblur="saveReplaceAllValue()"
+          placeholder="Replace text"
+          onblur="saveReplaceValue()"
         />
-        <input type="submit" value="Update all!" class="update-button" />
+        <input 
+          type="hidden" 
+          name="filter" 
+          value="@filter" 
+        />
+        <input type="submit" value="Update filtered" class="update-button" />
       </div>
     </form>
   </div>
@@ -92,7 +93,7 @@
 </div>
 
 <script>
-  function saveReplaceAllValue() {
+  function saveReplaceValue() {
     var replaceAllInput = document.getElementById("replaceAll");
     var replaceInput = document.getElementById("replace");
     replaceInput.value = replaceAllInput.value;

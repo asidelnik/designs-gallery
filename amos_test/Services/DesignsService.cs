@@ -88,6 +88,31 @@ namespace amos_test.Services
       return false;
     }
 
+
+    public void UpdateAllFilteredDesigns(List<int>? filteredDesignsIds, string replaceAll)
+    {
+      var jsonFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "FakeData", "data.json");
+      var json = File.ReadAllText(jsonFilePath);
+      var data = JsonConvert.DeserializeObject<DesignsModel>(json);
+      List<DesignModel> designs = data?.Designs ?? [];
+
+      foreach (var design in designs)
+      {
+        if (filteredDesignsIds != null && !filteredDesignsIds.Contains(design.Id))
+        {
+          design.DataNew = design.DataNew;
+        }
+        else
+        {
+          design.DataNew = design.DataNew != null ? UpdateDataTextsWithReplaceText(design.DataNew, replaceAll) : design.DataNew;
+        }
+      }
+
+      var newJson = JsonConvert.SerializeObject(data);
+      File.WriteAllText(jsonFilePath, newJson);
+    }
+
+
     public void DeleteDesignById(int designId)
     {
       var jsonFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "FakeData", "data.json");
