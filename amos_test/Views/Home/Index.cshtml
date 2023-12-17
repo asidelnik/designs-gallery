@@ -4,7 +4,8 @@
   var designs = ViewData["designs"] as
   List<DesignModel>;
   var filter = ViewData["filter"] as string;
-  var replace = ViewData["replace"] as string;
+  @* var replace = ViewData["replace"] as string; *@
+  @* var replace = ""; *@
 }
 
 <div class="error-message-display-box">
@@ -35,14 +36,15 @@
 
     <form action="/Home/UpdateAllDesigns" method="post">
       <div class="form-inner-container">
-        <label for="replace">Replace
+        <label for="replaceAll">Replace
           with</label>
         <input 
           type="text" 
-          id="replace"
-          name="replace"
-          placeholder="Some text" 
-          value="@replace"
+          id="replaceAll"
+          name="replaceAll"
+          placeholder="Replace text" 
+          @* value="@replace" *@
+          onblur="saveReplaceAllValue()"
         />
         <input type="submit" value="Update all!" class="update-button" />
       </div>
@@ -56,17 +58,17 @@
           <img src="@design.PreviewImage"
             alt="Preview image">
           <div class="button-container">
+            
               <form action="/Home/UpdateDesignById" method="post">
                 <input type="hidden" name="id" value="@design.Id" />
                 <input 
-                  type="hidden" 
-                  id="replace"
+                  type="hidden"
+                  id="replace" 
                   name="replace"
-                  value="@replace"
+                  value=""
                 />
                 <input 
                   type="hidden" 
-                  id="filter"
                   name="filter" 
                   value="@filter" 
                 />
@@ -90,6 +92,12 @@
 </div>
 
 <script>
+  function saveReplaceAllValue() {
+    var replaceAllInput = document.getElementById("replaceAll");
+    var replaceInput = document.getElementById("replace");
+    replaceInput.value = replaceAllInput.value;
+  }
+
   document.addEventListener("DOMContentLoaded", function() {
     var errorMessage = '@errorMessage';
     if (errorMessage) {

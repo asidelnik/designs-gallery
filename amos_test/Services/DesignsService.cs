@@ -38,7 +38,7 @@ namespace amos_test.Services
 
     private bool DoGeneratedElementsContainFilter(Dictionary<string, PageText>? generatedElements, string filter)
     {
-      if (generatedElements != null)
+      if (generatedElements != null && generatedElements.Count > 0)
       {
         foreach (KeyValuePair<string, PageText> elem in generatedElements)
         {
@@ -51,7 +51,7 @@ namespace amos_test.Services
 
     private bool DoElementsContainFilter(List<Element>? elements, string filter)
     {
-      if (elements != null)
+      if (elements != null && elements.Count > 0)
       {
         foreach (var elem in elements)
         {
@@ -123,23 +123,32 @@ namespace amos_test.Services
     private string? UpdateDataTextsWithReplaceText(string dataNew, string replace)
     {
       var data = JsonConvert.DeserializeObject<DataNew>(dataNew);
-      if (data?.frontPage == null || data?.innerPage == null || data?.backPage == null) return null;
+      if (data == null) return null;
 
-      data.frontPage.generatedElementsValues = UpdateGeneratedElementsContentText(data.frontPage.generatedElementsValues, replace);
-      data.frontPage.elements = UpdateElementsContentText(data.frontPage.elements, replace);
+      if (data?.frontPage != null)
+      {
+        data.frontPage.generatedElementsValues = UpdateGeneratedElementsContentText(data.frontPage.generatedElementsValues, replace);
+        data.frontPage.elements = UpdateElementsContentText(data.frontPage.elements, replace);
+      }
 
-      data.innerPage.generatedElementsValues = UpdateGeneratedElementsContentText(data.innerPage.generatedElementsValues, replace);
-      data.innerPage.elements = UpdateElementsContentText(data.innerPage.elements, replace);
+      if (data?.innerPage != null)
+      {
+        data.innerPage.generatedElementsValues = UpdateGeneratedElementsContentText(data.innerPage.generatedElementsValues, replace);
+        data.innerPage.elements = UpdateElementsContentText(data.innerPage.elements, replace);
+      }
 
-      data.backPage.generatedElementsValues = UpdateGeneratedElementsContentText(data.backPage.generatedElementsValues, replace);
-      data.backPage.elements = UpdateElementsContentText(data.backPage.elements, replace);
+      if (data?.backPage != null)
+      {
+        data.backPage.generatedElementsValues = UpdateGeneratedElementsContentText(data.backPage.generatedElementsValues, replace);
+        data.backPage.elements = UpdateElementsContentText(data.backPage.elements, replace);
+      }
 
       return JsonConvert.SerializeObject(data);
     }
 
     private Dictionary<string, PageText>? UpdateGeneratedElementsContentText(Dictionary<string, PageText>? generatedElements, string replace)
     {
-      if (generatedElements != null)
+      if (generatedElements != null && generatedElements.Count > 0)
       {
         foreach (KeyValuePair<string, PageText> elem in generatedElements)
         {
@@ -151,7 +160,7 @@ namespace amos_test.Services
 
     private List<Element>? UpdateElementsContentText(List<Element>? elements, string replace)
     {
-      if (elements != null)
+      if (elements != null && elements.Count > 0)
       {
         foreach (var elem in elements)
         {
