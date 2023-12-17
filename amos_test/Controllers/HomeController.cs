@@ -51,7 +51,7 @@ public class HomeController : Controller
   {
     try
     {
-      if (id == null) return BadRequest();
+      if (id == null || replace == null) return BadRequest();
       _designService.UpdateDesignById((int)id, replace);
       return RedirectToAction(nameof(Index), "Home", new { filter });
     }

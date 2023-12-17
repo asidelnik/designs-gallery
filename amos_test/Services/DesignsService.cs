@@ -123,14 +123,16 @@ namespace amos_test.Services
     private string? UpdateDataTextsWithReplaceText(string dataNew, string replace)
     {
       var data = JsonConvert.DeserializeObject<DataNew>(dataNew);
-      data.frontPage.generatedElementsValues = UpdateGeneratedElementsContentText(data?.frontPage?.generatedElementsValues, replace);
-      data.frontPage.elements = UpdateElementsContentText(data?.frontPage?.elements, replace);
+      if (data?.frontPage == null || data?.innerPage == null || data?.backPage == null) return null;
 
-      data.innerPage.generatedElementsValues = UpdateGeneratedElementsContentText(data?.innerPage?.generatedElementsValues, replace);
-      data.innerPage.elements = UpdateElementsContentText(data?.innerPage?.elements, replace);
+      data.frontPage.generatedElementsValues = UpdateGeneratedElementsContentText(data.frontPage.generatedElementsValues, replace);
+      data.frontPage.elements = UpdateElementsContentText(data.frontPage.elements, replace);
 
-      data.backPage.generatedElementsValues = UpdateGeneratedElementsContentText(data?.backPage?.generatedElementsValues, replace);
-      data.backPage.elements = UpdateElementsContentText(data?.backPage?.elements, replace);
+      data.innerPage.generatedElementsValues = UpdateGeneratedElementsContentText(data.innerPage.generatedElementsValues, replace);
+      data.innerPage.elements = UpdateElementsContentText(data.innerPage.elements, replace);
+
+      data.backPage.generatedElementsValues = UpdateGeneratedElementsContentText(data.backPage.generatedElementsValues, replace);
+      data.backPage.elements = UpdateElementsContentText(data.backPage.elements, replace);
 
       return JsonConvert.SerializeObject(data);
     }
