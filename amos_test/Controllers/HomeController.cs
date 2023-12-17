@@ -1,7 +1,5 @@
 using amos_test.Interfaces;
-using amos_test.Models;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace amos_test.Controllers;
 
@@ -35,17 +33,33 @@ public class HomeController : Controller
   [HttpPost]
   public IActionResult DeleteDesignById(int? id, string filter)
   {
-    if (id == null) return BadRequest();
-    _designService.DeleteDesignById((int)id);
-    return RedirectToAction(nameof(Index), "Home", new { filter });
+    try
+    {
+      if (id == null) return BadRequest();
+      _designService.DeleteDesignById((int)id);
+      return RedirectToAction(nameof(Index), "Home", new { filter });
+    }
+    catch (Exception ex)
+    {
+      _logger.LogError(ex, "An error occurred while deleting the design by ID.");
+      return RedirectToAction(nameof(Index), "Home", new { filter });
+    }
   }
 
   [HttpPost]
   public IActionResult UpdateDesignById(int? id, string? replace, string filter)
   {
-    if (id == null) return BadRequest();
-    _designService.UpdateDesignById((int)id, replace);
-    return RedirectToAction(nameof(Index), "Home", new { filter });
+    try
+    {
+      if (id == null) return BadRequest();
+      _designService.UpdateDesignById((int)id, replace);
+      return RedirectToAction(nameof(Index), "Home", new { filter });
+    }
+    catch (Exception ex)
+    {
+      _logger.LogError(ex, "An error occurred while updating the design by ID.");
+      return RedirectToAction(nameof(Index), "Home", new { filter });
+    }
   }
 
   public IActionResult Privacy()
