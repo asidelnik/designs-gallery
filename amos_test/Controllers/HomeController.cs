@@ -75,9 +75,4 @@ public class HomeController : Controller
       return RedirectToAction(nameof(Index), "Home", new { filter, errorMessage = ex.Message });
     }
   }
-
-  public IActionResult Privacy()
-  {
-    return View();
-  }
 }
