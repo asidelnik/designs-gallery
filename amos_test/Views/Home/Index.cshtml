@@ -1,10 +1,19 @@
 ﻿@{
   ViewData["Title"] = "Home Page";
+  var errorMessage = ViewData["errorMessage"] as string;
   var designs = ViewData["designs"] as
   List<DesignModel>;
   var filter = ViewData["filter"] as string;
   var replace = ViewData["replace"] as string;
 }
+
+<div class="error-message-display-box">
+  <div class="error-message-container">
+    <div class="error-message">
+      @errorMessage
+    </div>
+  </div>
+</div
 
 <div class="text-center">
   <div class="controls-container">
@@ -80,23 +89,15 @@
   </div>
 </div>
 
-
-@* <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-$(document).ready(function() {
-    $('.delete-design').click(function() {
-        var designId = $(this).data('design-id');
-
-        $.ajax({
-            url: '/Home/DeleteDesignById',
-            type: 'DELETE',
-            data: { id: designId, filter: $('#filter').val() },
-            success: function(result) {
-                if (result != null) {
-                  designs = result;
-                }
-            }
-        });
-    });
-});
-</script> *@
+  document.addEventListener("DOMContentLoaded", function() {
+    var errorMessage = '@errorMessage';
+    if (errorMessage) {
+      var errorBox = document.querySelector('.error-message-display-box');
+      errorBox.style.display = 'block';
+      setTimeout(function() {
+        errorBox.style.display = 'none';
+      }, 3000);
+    }
+  });
+</script>

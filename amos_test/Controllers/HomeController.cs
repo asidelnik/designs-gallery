@@ -14,11 +14,12 @@ public class HomeController : Controller
     _designService = designService;
   }
 
-  public IActionResult Index(string filter)
+  public IActionResult Index(string filter, string? errorMessage = null)
   {
     var designs = _designService.GetDesignsFiltered(filter);
     ViewData["filter"] = filter;
     ViewData["designs"] = designs;
+    ViewData["errorMessage"] = errorMessage;
     return View();
   }
 
@@ -35,13 +36,13 @@ public class HomeController : Controller
   {
     try
     {
-      if (id == null) return BadRequest();
+      if (id == null) throw new ArgumentException("Missing parameter: design id");
       _designService.DeleteDesignById((int)id);
       return RedirectToAction(nameof(Index), "Home", new { filter });
     }
     catch (Exception ex)
     {
-      _logger.LogError(ex, "An error occurred while deleting the design by ID.");
+      _logger.LogError(ex, string.Format("HomeController - DeleteDesignById: {0}", string.IsNullOrEmpty(ex.Message) ? "No error message" : ex.Message));
       return RedirectToAction(nameof(Index), "Home", new { filter });
     }
   }
@@ -51,14 +52,16 @@ public class HomeController : Controller
   {
     try
     {
-      if (id == null || replace == null) return BadRequest();
+      if (id == null) throw new ArgumentException("Missing parameter: design id");
+      if (replace == null) throw new ArgumentException("Missing parameter: replace text");
+
       _designService.UpdateDesignById((int)id, replace);
       return RedirectToAction(nameof(Index), "Home", new { filter });
     }
     catch (Exception ex)
     {
-      _logger.LogError(ex, "An error occurred while updating the design by ID.");
-      return RedirectToAction(nameof(Index), "Home", new { filter });
+      _logger.LogError(ex, string.Format("HomeController - UpdateDesignById: {0}", string.IsNullOrEmpty(ex.Message) ? "No error message" : ex.Message));
+      return RedirectToAction(nameof(Index), "Home", new { filter, errorMessage = ex.Message });
     }
   }
 
