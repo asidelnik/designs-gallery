@@ -7,36 +7,38 @@
 }
 
 <div class="text-center">
-  <form asp-action="Index" method="get">
-    <div class="form-inner-container">
-      <label for="filter">Text
-        to
-        search</label>
-      <input 
-        type="text" 
-        id="filter"
-        placeholder="Text to search"
-        name="filter" 
-        value="@filter"
-      />
-      <input type="submit" value="Show me!" class="search-button" />
-    </div>
-  </form>
+  <div class="controls-container">
+    <form asp-action="Index" method="get">
+      <div class="form-inner-container">
+        <label for="filter">Text
+          to
+          search</label>
+        <input 
+          type="text" 
+          id="filter"
+          placeholder="Text to search"
+          name="filter" 
+          value="@filter"
+        />
+        <input type="submit" value="Show me!" class="search-button" />
+      </div>
+    </form>
 
-  <form action="/Home/UpdateAllDesigns" method="post">
-    <div class="form-inner-container">
-      <label for="replace">Replace
-        with</label>
-      <input 
-        type="text" 
-        id="replace"
-        name="replace"
-        placeholder="Some text" 
-        value="@replace"
-      />
-      <input type="submit" value="Update all!" class="update-button" />
-    </div>
-  </form>
+    <form action="/Home/UpdateAllDesigns" method="post">
+      <div class="form-inner-container">
+        <label for="replace">Replace
+          with</label>
+        <input 
+          type="text" 
+          id="replace"
+          name="replace"
+          placeholder="Some text" 
+          value="@replace"
+        />
+        <input type="submit" value="Update all!" class="update-button" />
+      </div>
+    </form>
+  </div>
 
   <div class="designs-grid">
     @foreach (var design in designs)
