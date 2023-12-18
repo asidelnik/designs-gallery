@@ -20,16 +20,15 @@ namespace amos_test.Services
         {
           if (d?.DataNew == null) return false;
           var dataNew = JsonConvert.DeserializeObject<DataNew>(d.DataNew);
-
-          if (DoGeneratedElementsContainFilter(dataNew?.frontPage?.generatedElementsValues, filter)) return true;
-          if (DoElementsContainFilter(dataNew?.frontPage?.elements, filter)) return true;
-
-          if (DoGeneratedElementsContainFilter(dataNew?.innerPage?.generatedElementsValues, filter)) return true;
-          if (DoElementsContainFilter(dataNew?.innerPage?.elements, filter)) return true;
-
-          if (DoGeneratedElementsContainFilter(dataNew?.backPage?.generatedElementsValues, filter)) return true;
-          if (DoElementsContainFilter(dataNew?.backPage?.elements, filter)) return true;
-
+          Page?[] pages = [dataNew?.frontPage, dataNew?.innerPage, dataNew?.backPage];
+          foreach (var page in pages)
+          {
+            if (page != null)
+            {
+              if (DoGeneratedElementsContainFilter(page.generatedElementsValues, filter)) return true;
+              if (DoElementsContainFilter(page.elements, filter)) return true;
+            }
+          }
           return false;
         }).ToList() ?? [];
       }
@@ -149,23 +148,14 @@ namespace amos_test.Services
     {
       var data = JsonConvert.DeserializeObject<DataNew>(dataNew);
       if (data == null) return null;
-
-      if (data?.frontPage != null)
+      Page?[] pages = [data.frontPage, data.innerPage, data.backPage];
+      foreach (var page in pages)
       {
-        data.frontPage.generatedElementsValues = UpdateGeneratedElementsContentText(data.frontPage.generatedElementsValues, replace);
-        data.frontPage.elements = UpdateElementsContentText(data.frontPage.elements, replace);
-      }
-
-      if (data?.innerPage != null)
-      {
-        data.innerPage.generatedElementsValues = UpdateGeneratedElementsContentText(data.innerPage.generatedElementsValues, replace);
-        data.innerPage.elements = UpdateElementsContentText(data.innerPage.elements, replace);
-      }
-
-      if (data?.backPage != null)
-      {
-        data.backPage.generatedElementsValues = UpdateGeneratedElementsContentText(data.backPage.generatedElementsValues, replace);
-        data.backPage.elements = UpdateElementsContentText(data.backPage.elements, replace);
+        if (page != null)
+        {
+          page.generatedElementsValues = UpdateGeneratedElementsContentText(page.generatedElementsValues, replace);
+          page.elements = UpdateElementsContentText(page.elements, replace);
+        }
       }
 
       return JsonConvert.SerializeObject(data);
